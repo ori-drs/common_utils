@@ -18,19 +18,19 @@ const char *
 getDataPath()
 {
 //    return BASE_PATH "/data";
-    return BASE_PATH "/../../params/data";
+    return BASE_PATH "/../src/director_drs/data";
 }
 
 const char *
 getConfigPath()
 {
 //    return BASE_PATH "/config";
-    return BASE_PATH "/../../params/config";
+    return BASE_PATH "/../src/director_drs/config";
 }
 
 const char *
 getModelsPath()
 {
 //    return BASE_PATH "/models";
-    return BASE_PATH "/../../params/models";
+    return BASE_PATH "/../src/director_drs/models";
 }
