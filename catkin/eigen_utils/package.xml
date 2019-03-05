@@ -4,10 +4,7 @@
   <version>1.0.0</version>
   <description>The eigen_utils package</description>
   <maintainer email="v.ivan@ed.ac.uk">Vladimir Ivan</maintainer>
+  <maintainer email="mcamurri@robots.ox.ac.uk">Marco Camurri</maintainer>
   <license>BSD</license>
-
   <buildtool_depend>catkin</buildtool_depend>
-  <depend>eigen_utils_lcmtypes</depend>
-  <depend>bot_lcmgl</depend>
-
 </package>

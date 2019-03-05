@@ -1,5 +1,5 @@
-#include "../eigen_utils_common.hpp"
-#include "eigen_fftw.hpp"
+#include <eigen_utils/eigen_utils_common.hpp>
+#include "eigen_utils_fftw/eigen_fftw.hpp"
 
 #include <stdio.h>
 #include <fftw3.h>
