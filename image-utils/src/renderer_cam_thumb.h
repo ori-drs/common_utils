@@ -1,1 +1,0 @@
-renderer/renderer_cam_thumb.h
