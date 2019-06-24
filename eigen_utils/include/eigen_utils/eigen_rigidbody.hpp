@@ -67,9 +67,9 @@ public:
     basic_num_states = 15
   };
 
-  Eigen::Quaterniond quat;
   Eigen::VectorXd vec;
   int64_t utime;
+  Eigen::Quaterniond quat;
 
 protected:
   RigidBodyState(int state_dim) :
@@ -86,20 +86,15 @@ public:
   }
 
   RigidBodyState(const Eigen::VectorXd & arg_vec) :
-      vec(arg_vec)
+      vec(arg_vec), utime(0), quat(Eigen::Quaterniond::Identity())
   {
-    quat = Eigen::Quaterniond::Identity();
     this->chiToQuat();
-    utime = 0;
   }
 
   RigidBodyState(const Eigen::VectorXd & arg_vec, const Eigen::Quaterniond & arg_quat) :
-      vec(arg_vec), quat(arg_quat)
+      vec(arg_vec), utime(0), quat(arg_quat)
   {
-    utime = 0;
   }
-
-
 
   void integrateForwardConstantVelocity(double time)
   {

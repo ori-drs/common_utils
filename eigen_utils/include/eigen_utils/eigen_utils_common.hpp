@@ -95,7 +95,9 @@ bool assertNoNan(const Eigen::DenseBase<Derived> & m)
     std::cerr << "ERROR: m has a NAN!\n";
     eigen_dump(m);
     assert(false);
+    return false;
   }
+  return true;
 }
 
 template<typename Derived>
@@ -249,12 +251,14 @@ std::string typenameToStr()
 {
   return std::string("not_implemented");
 }
-//// macro to implement specializations for given types
-//#define EIGEN_MAKE_TYPENAME_TO_STRING( type ) \
-//    template<>\
-//    std::string typenameToStr<type>() {\
-//       return std::string(#type);\
-//    }
+// macro to implement specializations for given types
+/*
+ #define EIGEN_MAKE_TYPENAME_TO_STRING( type ) 
+    template<>
+    std::string typenameToStr<type>() {
+       return std::string(#type);
+    }
+*/
 //EIGEN_MAKE_TYPENAME_TO_STRING(double);
 //EIGEN_MAKE_TYPENAME_TO_STRING(float);
 //EIGEN_MAKE_TYPENAME_TO_STRING(int64_t);
