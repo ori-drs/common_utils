@@ -4,7 +4,7 @@ project(eigen_utils)
 add_compile_options(-std=c++11)
 
 # this is just to make the "catkin_package" macro available
-find_package(catkin)
+find_package(catkin REQUIRED)
 
 find_package(Eigen3 REQUIRED)
 
@@ -19,11 +19,11 @@ add_library(${PROJECT_NAME} SHARED src/eigen_numerical.cpp
                                    src/eigen_rigidbody.cpp
                                    src/eigen_utils_common.cpp)
 
-install(TARGETS eigen_utils
+install(TARGETS ${PROJECT_NAME}
         ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
         LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
         RUNTIME DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION})
 
-install(DIRECTORY include/${PACKAGE_NAME}/
+install(DIRECTORY include/${PROJECT_NAME}/
         DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION})
 
