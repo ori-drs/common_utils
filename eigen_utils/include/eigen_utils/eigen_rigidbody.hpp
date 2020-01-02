@@ -1,18 +1,7 @@
-#ifndef __eigen_rigidbody_h__
-#define __eigen_rigidbody_h__
+#pragma once
 
 #include <Eigen/Dense>
 #include <Eigen/Geometry>
-
-// Define isnan() function for OSX
-#if defined(__APPLE__)
-#if (__GNUC__ >= 4)
-//#define isnan(X) __inline_isnan(X)
-#define isnan(X) std::isnan(X)
-#else
-#define isnan(X) __isnan(X)
-#endif
-#endif
 
 namespace eigen_utils {
 
@@ -301,5 +290,3 @@ public:
 std::ostream& operator<<(std::ostream& output, const RigidBodyState & state);
 
 }
-
-#endif
