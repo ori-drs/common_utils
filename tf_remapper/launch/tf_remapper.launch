@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<launch>
+
+  <!-- Publish the pose of 'child' relative to 'parent' expressed in 'target' at a given frequency -->
+
+  <!-- ID of the child frame -->
+  <arg name="original_child_frame_id"     default="base"/>
+  <!-- ID of the parent frame -->
+  <arg name="original_parent_frame_id"    default="map"/>
+
+  <!-- ID of the child frame -->
+  <arg name="new_child_frame_id"     default="base"/>
+  <!-- ID of the parent frame -->
+  <arg name="new_parent_frame_id"    default="map"/>
+
+  <!-- Frequency of the publishing -->
+  <arg name="frequency"          default="100.0"/>
+  <!-- Node namespace -->
+  <arg name="node_namespace"     default="tf_remapper"/>
+  <!-- Node name -->
+  <arg name="node_name"          default="$(arg new_child_frame_id)_to_$(arg new_parent_frame_id)"/>
+
+  <node ns="$(arg node_namespace)" name="$(arg node_name)" pkg="tf_remapper" type="tf_remapper.py" output="screen">
+    <param name="original_child_frame_id"  value="$(arg original_child_frame_id)"/>
+    <param name="original_parent_frame_id" value="$(arg original_parent_frame_id)"/>
+
+    <param name="new_child_frame_id"  value="$(arg new_child_frame_id)"/>
+    <param name="new_parent_frame_id" value="$(arg new_parent_frame_id)"/>
+
+    <param name="frequency"       value="$(arg frequency)"/>
+  </node>
+
+</launch>
