@@ -73,9 +73,14 @@ Eigen::Quaterniond setQuatEulerAngles(const Eigen::Vector3d & eulers)
   return quat;
 }
 
+/**
+ * @brief getEulerAngles converts a quaternion in roll pitch yaw angles in radians
+ * @param quat
+ * @return
+ */
 Eigen::Vector3d getEulerAngles(const Eigen::Quaterniond & quat)
 {
-  return quat.toRotationMatrix().eulerAngles(2, 1, 0).reverse(); //ypr
+  return quat.toRotationMatrix().eulerAngles(2, 1, 0).reverse();
 }
 
 Eigen::Vector3d getEulerAngles(const Eigen::Matrix3d & rot)
