@@ -2,46 +2,10 @@
 
 #include <Eigen/Dense>
 #include <Eigen/Geometry>
+#include "eigen_utils/eigen_rotations.hpp"
+#include "eigen_utils/eigen_utils_common.hpp"
 
 namespace eigen_utils {
-
-/*
- * returns the skew symmetric matrix corresponding to vec.cross(<other vector>)
- */
-Eigen::Matrix3d skewHat(const Eigen::Vector3d & vec);
-
-/**
- * returns the exponential coordinates of quat1 - quat2
- * (quat2.inverse() * quat1)
- */
-Eigen::Vector3d subtractQuats(const Eigen::Quaterniond & quat1, const Eigen::Quaterniond & quat2);
-
-Eigen::Vector3d subtractRotations(const Eigen::Matrix3d & rot1, const Eigen::Matrix3d & rot2);
-
-void quaternionToBotDouble(double bot_quat[4], const Eigen::Quaterniond & eig_quat);
-
-void botDoubleToQuaternion(Eigen::Quaterniond & eig_quat, const double bot_quat[4]);
-
-Eigen::Quaterniond setQuatEulerAngles(const Eigen::Vector3d & eulers);
-
-Eigen::Vector3d getEulerAngles(const Eigen::Quaterniond & quat);
-Eigen::Vector3d getEulerAngles(const Eigen::Matrix3d & rot);
-inline Eigen::Vector3d getEulerAnglesDeg(const Eigen::Quaterniond& quat) {
-    return getEulerAngles(quat) * 180.0 / M_PI;
-}
-
-inline Eigen::Vector3d getEulerAnglesDeg(const Eigen::Matrix3d& rot) {
-    return getEulerAngles(rot) * 180.0 / M_PI;
-}
-
-Eigen::Affine3d getTransTwistUnscaled(const Eigen::Vector3d & unscaledAngularVelocity,
-    const Eigen::Vector3d & unscailedLinearVelocity);
-Eigen::Affine3d getTransTwist(const Eigen::Vector3d & angularVelocity, const Eigen::Vector3d & linearVelocity,
-    double time);
-
-const double g_val = 9.80665; //gravity
-const double rho_val = 1.2; //air density kg/m^3
-const Eigen::Vector3d g_vec = -g_val * Eigen::Vector3d::UnitZ(); //ENU gravity vector
 
 /**
  * Basic Rigid Body State representation
@@ -54,6 +18,7 @@ const Eigen::Vector3d g_vec = -g_val * Eigen::Vector3d::UnitZ(); //ENU gravity v
 class RigidBodyState {
 public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
+public:
   enum {
     angular_velocity_ind = 0,
     velocity_ind = 3,
@@ -66,6 +31,8 @@ public:
   Eigen::VectorXd vec;
   int64_t utime;
   Eigen::Quaterniond quat;
+
+
 
 protected:
   RigidBodyState(int state_dim) :

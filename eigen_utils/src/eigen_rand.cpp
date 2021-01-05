@@ -5,9 +5,10 @@ namespace eigen_utils {
 
 using namespace Eigen;
 
-void fitParticles(const Eigen::MatrixXd & state_samples
-    , const Eigen::VectorXd & weights , Eigen::VectorXd & mean
-    ,Eigen::MatrixXd & covariance)
+void fitParticles(const Eigen::MatrixXd & state_samples,
+                  const Eigen::VectorXd & weights,
+                  Eigen::VectorXd & mean,
+                  Eigen::MatrixXd & covariance)
 {
 
   int Nsamples = state_samples.cols();

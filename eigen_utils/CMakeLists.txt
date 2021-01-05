@@ -17,10 +17,12 @@ catkin_package(INCLUDE_DIRS include
 add_library(${PROJECT_NAME} SHARED src/eigen_numerical.cpp
                                    src/eigen_rand.cpp
                                    src/eigen_rigidbody.cpp
-                                   src/eigen_utils_common.cpp)
+                                   src/eigen_utils_common.cpp
+                                   src/eigen_rotations.cpp)
 if(CATKIN_ENABLE_TESTING)
-  catkin_add_gtest(quat_rpy_tests test/test_transforms.cpp)
-  target_link_libraries(quat_rpy_tests ${PROJECT_NAME})
+  catkin_add_gtest(eigen_utils_tests test/test_transforms.cpp
+                                     test/test_unwrap.cpp)
+  target_link_libraries(eigen_utils_tests ${PROJECT_NAME})
 endif()
 
 install(TARGETS ${PROJECT_NAME}

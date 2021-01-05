@@ -1,20 +1,10 @@
-#ifndef __eigen_common_h__
-#define __eigen_common_h__
+#pragma once
 
 #include <Eigen/Dense>
 #include <iostream>
 #include <algorithm>
 #include <vector>
 #include <utility>
-// Define isnan() function for OSX
-#if defined(__APPLE__)
-#if (__GNUC__ >= 4)
-//#define isnan(X) __inline_isnan(X)
-#define isnan(X) std::isnan(X)
-#else
-#define isnan(X) __isnan(X)
-#endif
-#endif
 
 namespace eigen_utils {
 #define eigen_dump(MAT) std::cout << #MAT << std::endl << (MAT) << std::endl
@@ -22,6 +12,21 @@ namespace eigen_utils {
 #define eigen_matlab_dump(MAT) std::cout << #MAT << "=[" << (MAT) << "];\n"
 
 #define var_dump(VAR) std::cout << #VAR << std::endl << (VAR) << std::endl
+
+/**
+ * @brief g_val scalar representing the gravitational acceleration on Earth (positive)
+ */
+static const double g_val = 9.80665;
+/**
+ * @brief rho_val air density kg/m^3
+ */
+static const double rho_val = 1.2;
+
+/**
+ * @brief g_vec gravitational acceleration vector (negative along Z)
+ *  ENU gravity vector
+ */
+static const Eigen::Vector3d g_vec = -g_val * Eigen::Vector3d::UnitZ();
 
 double atan2Vec(const Eigen::Vector2d & vec);
 
@@ -32,49 +37,6 @@ void angleToVec(double angle, Eigen::Vector2d & unit_vec);
 //utilities for flattening an symmetric matrices (ie cov matrices)
 Eigen::VectorXd flattenSymmetric(Eigen::MatrixXd symm);
 Eigen::MatrixXd unflattenSymmetric(Eigen::VectorXd flat);
-
-/**
- * alpha is (time step)/(filter time constant)
- */
-template<typename Type>
-class ExponentialFilter {
-public:
-
-  ExponentialFilter(const Type & init_val, double alpha) :
-      val(init_val), alpha()
-  {
-  }
-
-  const Type & step(const Type & new_val)
-  {
-    val = alpha * new_val + (1 - alpha) * val;
-  }
-
-  const Type & operator()() const
-  {
-    return getVal();
-  }
-
-  const Type & getVal() const
-  {
-    return val;
-  }
-
-  const double & getAlpha() const
-  {
-    return alpha;
-  }
-
-  void setAlpha(double _alpha)
-  {
-    alpha = _alpha;
-  }
-  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
-private:
-  double alpha;
-  Type val;
-}
-;
 
 template<typename Derived>
 bool hasNan(const Eigen::DenseBase<Derived> & m)
@@ -224,55 +186,4 @@ Eigen::ArrayXi &sorted_inds)
 
   return sorted;
   }
-// TAKEN from math_util.h in libbot
-// TODO clean up libbot from lcm and use from there
-/** valid only for v > 0 **/
-inline double mod2pi_positive(double vin)
-{
-    double q = vin / (2*M_PI) + 0.5;
-    int qi = (int) q;
-
-    return vin - qi*2*M_PI;
-}
-
-/** Map v to [-PI, PI] **/
-inline double mod2pi(double vin)
-{
-    if (vin < 0)
-        return -mod2pi_positive(-vin);
-    else
-        return mod2pi_positive(vin);
-}
-
-
-////Generic type
-template<typename T>
-std::string typenameToStr()
-{
-  return std::string("not_implemented");
-}
-// macro to implement specializations for given types
-/*
- #define EIGEN_MAKE_TYPENAME_TO_STRING( type ) 
-    template<>
-    std::string typenameToStr<type>() {
-       return std::string(#type);
-    }
-*/
-//EIGEN_MAKE_TYPENAME_TO_STRING(double);
-//EIGEN_MAKE_TYPENAME_TO_STRING(float);
-//EIGEN_MAKE_TYPENAME_TO_STRING(int64_t);
-//EIGEN_MAKE_TYPENAME_TO_STRING(int32_t);
-//EIGEN_MAKE_TYPENAME_TO_STRING(int16_t);
-//EIGEN_MAKE_TYPENAME_TO_STRING(int8_t);
-//EIGEN_MAKE_TYPENAME_TO_STRING(uint64_t);
-//EIGEN_MAKE_TYPENAME_TO_STRING(uint32_t);
-//EIGEN_MAKE_TYPENAME_TO_STRING(uint16_t);
-//EIGEN_MAKE_TYPENAME_TO_STRING(uint8_t);
-//EIGEN_MAKE_TYPENAME_TO_STRING(bool);
-
 } //namespace eigen_utils
-
-
-
-#endif
