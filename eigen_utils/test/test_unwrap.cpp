@@ -33,17 +33,17 @@ TEST(Unwrap, cornerCases){
   EXPECT_TRUE(expected_unwrapped_angles.size() == new_angles.size());
 
   for(size_t i = 0; i < prev_angles.size(); ++i){
-    double unwraped_angle = unwrap(prev_angles[i], new_angles[i]);
-    EXPECT_DOUBLE_EQ(unwraped_angle, expected_unwrapped_angles[i]);
+    double unwrapped_angle = unwrap(prev_angles[i], new_angles[i]);
+    EXPECT_DOUBLE_EQ(unwrapped_angle, expected_unwrapped_angles[i]);
 
-//    std::cout.precision(4);
-//    std::cout << std::fixed << std::setfill(' ')
-//              << std::left  << std::setw(11) << "prev_angles[" << i << "] = "
-//              << std::right << std::setw(7)  << prev_angles[i]
-//              << std::left  << std::setw(12) << ", new_angles[" << i << "] = "
-//              << std::right << std::setw(7)  <<  new_angles[i]
-//              << std::left  << std::setw(19) << ": unwraped_angle = "
-//              << std::right << std::setw(10) << unwraped_angle
-//              << std::endl;
+    std::cout.precision(4);
+    std::cout << std::fixed << std::setfill(' ')
+              << std::left  << std::setw(11) << "prev_angles[" << i << "] = "
+              << std::right << std::setw(7)  << prev_angles[i]
+              << std::left  << std::setw(12) << ", new_angles[" << i << "] = "
+              << std::right << std::setw(7)  <<  new_angles[i]
+              << std::left  << std::setw(19) << ": unwrapped_angle = "
+              << std::right << std::setw(10) << unwrapped_angle
+              << std::endl;
   }
 }
