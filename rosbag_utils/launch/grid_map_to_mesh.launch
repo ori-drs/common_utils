@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<launch>
+  <!-- ############ Default Parameters ############ -->
+  <arg name="gdb"                   default="" />
+
+  <!-- ############ Main Node ############ -->
+  <node 
+    name="grid_map_to_mesh"
+    pkg="rosbag_utils"
+    type="grid_map_to_mesh_node"
+    output="screen"
+    launch-prefix="$(arg gdb)"
+    required="true"
+    >
+    <param name="topic_grid_map" type="string" value="/elevation_mapping_lidar_and_camera/elevation_map" />
+    <param name="topic_pointcloud" type="string" value="/grid_map_to_mesh/pointcloud" />
+    <param name="topic_grid_map_out" type="string" value="/grid_map_to_mesh/grid_map" />
+    <param name="path_to_save_mesh" type="string" value="/home/oliwier/data/tmp/mesh/test2" />
+  </node>
+</launch>
