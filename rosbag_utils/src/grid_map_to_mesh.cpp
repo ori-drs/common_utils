@@ -138,7 +138,7 @@ void GridMapToMesh::convertGridMapToPointCloud() {
 
 void GridMapToMesh::publishPointcloud() {
   sensor_msgs::PointCloud2 msg;
-  pcl::toROSMsg(pointcloud_filtered_, msg);
+  pcl::toROSMsg(pointcloud_, msg);
   msg.header.stamp = ros::Time::now();
   msg.header.frame_id = "map";
   ros_pub_pointcloud_.publish(msg);
