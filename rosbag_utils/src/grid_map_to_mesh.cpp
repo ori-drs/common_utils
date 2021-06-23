@@ -90,13 +90,17 @@ void GridMapToMesh::convertGridMapToPointCloud() {
   grid_map::Position robot_xy = grid_map_.getPosition();
 
   robot_xy_history_.push_back(robot_xy);
-  if (robot_xy_history_.size() > 3) {
+  if (robot_xy_history_.size() > 30) {
     robot_xy_history_.pop_front();
   }
 
   grid_map::GridMap grid_map_submap;
   grid_map_submap = grid_map_.getSubmap(grid_map_.getPosition(),
                                         grid_map::Length(2., 2.), success);
+  grid_map_msgs::GridMap output_grid_map_msg;
+  grid_map::GridMapRosConverter::toMessage(grid_map_submap, output_grid_map_msg); 
+  ros_pub_grid_map_out_.publish(output_grid_map_msg);
+
   for (grid_map::GridMapIterator iterator(grid_map_submap);
        !iterator.isPastEnd(); ++iterator) {
     bool add_point = true;
@@ -109,7 +113,7 @@ void GridMapToMesh::convertGridMapToPointCloud() {
     // continue;
     for (int i = 0; i < robot_xy_history_.size(); i++) {
       if (std::hypot(p.x() - robot_xy_history_[i].x(),
-                     p.y() - robot_xy_history_[i].y()) < (0.5)) {
+                     p.y() - robot_xy_history_[i].y()) < (0.3)) {
         add_point = false;
         break;
       }
@@ -125,15 +129,16 @@ void GridMapToMesh::convertGridMapToPointCloud() {
   removeStatisticalOutlier(pointcloud_local_, pointcloud_filtered_);
 
   pointcloud_ += pointcloud_filtered_;
-  filterPointcloud(pointcloud_, pointcloud_filtered_);
-  pointcloud_ = pointcloud_filtered_;
+  pcl::PointCloud<pcl::PointXYZ> full_pointcloud_filtered;
+  filterPointcloud(pointcloud_, full_pointcloud_filtered);
+  pointcloud_ = full_pointcloud_filtered;
 
   std::cout << "pointcloud_.size() = " << pointcloud_.size() << "\n";
 }
 
 void GridMapToMesh::publishPointcloud() {
   sensor_msgs::PointCloud2 msg;
-  pcl::toROSMsg(pointcloud_, msg);
+  pcl::toROSMsg(pointcloud_filtered_, msg);
   msg.header.stamp = ros::Time::now();
   msg.header.frame_id = "map";
   ros_pub_pointcloud_.publish(msg);
@@ -171,11 +176,11 @@ void GridMapToMesh::removeStatisticalOutlier(
 void GridMapToMesh::getTF() {
   tf::StampedTransform m_T_boi_transform;
   tf_listener_->waitForTransform(
-      "map", "body_odom_icp", ros::Time(0),
+      "map", "body", ros::Time(0),
       ros::Duration(2.0));  // TODO: hard-coded frame names
   try {
     tf_listener_->lookupTransform(
-        "map", "body_odom_icp", ros::Time(0),
+        "map", "body", ros::Time(0),
         m_T_boi_transform);  // TODO: hard-coded frame names
     tf::transformTFToEigen(m_T_boi_transform, m_T_boi_);
   } catch (const tf::TransformException& e) {
