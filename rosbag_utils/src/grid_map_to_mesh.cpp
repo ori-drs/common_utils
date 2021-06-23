@@ -27,7 +27,7 @@ GridMapToMesh::GridMapToMesh(ros::NodeHandle& nh) : ros_nh_(nh) {
       topic_grid_map_, 1, &GridMapToMesh::callbackGridMapMsg, this);
   ros_pub_pointcloud_ =
       ros_nh_.advertise<sensor_msgs::PointCloud2>(topic_pointcloud_, 1, false);
-  ros_pub_gridmap_ =
+  ros_pub_grid_map_out_ =
       ros_nh_.advertise<grid_map_msgs::GridMap>(topic_grid_map_out_, 1, false);
 
   // TF
